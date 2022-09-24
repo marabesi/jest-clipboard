@@ -2,7 +2,7 @@
   "name": "jest-clipboard",
   "version": "0.0.2",
   "description": "",
-  "main": "index.js",
+  "main": "dist/clipboard.js",
   "scripts": {
     "dist": "tsc --outDir dist/",
     "test": "jest",
