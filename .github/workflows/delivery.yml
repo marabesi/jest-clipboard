@@ -9,6 +9,7 @@ jobs:
         with:
           node-version: 16
       - run: npm install
+      - run: npm run dist
       - run: npm test
       - uses: JS-DevTools/npm-publish@v1
         with:
