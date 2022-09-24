@@ -6,7 +6,7 @@
   "types": "./dist/types/clipboard.d.ts",
   "scripts": {
     "dist": "tsc --outDir ./dist/ --declarationDir ./dist/types/",
-    "test": "jest",
+    "test": "jest ./src/",
     "lint": "eslint --fix ./src/"
   },
   "repository": {
