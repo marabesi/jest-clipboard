@@ -13,7 +13,10 @@
     "type": "git",
     "url": "git+https://github.com/marabesi/jest-clipboard.git"
   },
-  "author": "",
+  "author": {
+    "name": "Matheus Marabesi",
+    "url": "https://marabesi.com"
+  },
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/marabesi/jest-clipboard/issues"
