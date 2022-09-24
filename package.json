@@ -1,13 +1,13 @@
 {
   "name": "jest-clipboard",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "",
-  "main": "dist/clipboard.js",
-  "types": "dist/types/clipboard.d.ts",
+  "main": "./dist/clipboard.js",
+  "types": "./dist/types/clipboard.d.ts",
   "scripts": {
-    "dist": "tsc --outDir dist/ --declarationDir ./dist/types/",
+    "dist": "tsc --outDir ./dist/ --declarationDir ./dist/types/",
     "test": "jest",
-    "lint": "eslint --fix src/"
+    "lint": "eslint --fix ./src/"
   },
   "repository": {
     "type": "git",
