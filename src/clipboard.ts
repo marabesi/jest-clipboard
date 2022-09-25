@@ -4,6 +4,9 @@ export function setUpClipboard(text: string) {
   Object.assign(global.navigator,
     {
       clipboard: {
+        async write(): Promise<void> {
+          return Promise.resolve()
+        },
         async writeText(text: string) {
           return text;
         },
