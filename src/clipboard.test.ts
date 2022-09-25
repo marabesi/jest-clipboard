@@ -1,23 +1,22 @@
+import { Blob } from 'buffer';
 import {setUpClipboard, tearDownClipboard} from "./clipboard";
 
-const writeTextToClipboard = async () => {
-  await navigator.clipboard.writeText('text from clipboard');
+const writeTextToClipboard = async (writeToClipboard: string) => {
+  return await navigator.clipboard.writeText(writeToClipboard);
 };
 
-const writeToClipboard = async (clipboardItems: ClipboardItem[]) => {
-  await navigator.clipboard.write(clipboardItems);
+const writeToClipboard = async (text: string) => {
+  const myBlob = new Blob([text], { type: 'text/plain' })
+  const clipboardItem = {
+    'text/plain': myBlob,
+  };
+
+  // @ts-ignore
+  return navigator.clipboard.write([ clipboardItem ]);
 };
 
-const readFromClipBoard = async(): Promise<Blob[]> => {
-  const clipboardItems = await navigator.clipboard.read();
-  const readFromClipboard = []
-  for (const clipboardItem of clipboardItems) {
-    for (const type of clipboardItem.types) {
-      const blob = await clipboardItem.getType(type);
-      readFromClipboard.push(blob)
-    }
-  }
-  return readFromClipboard
+const readFromClipBoard = async(): Promise<ClipboardItems> => {
+  return navigator.clipboard.read();
 }
 
 const readTextFromClipBoard = async () => {
@@ -26,48 +25,46 @@ const readTextFromClipBoard = async () => {
 
 describe('Clipboard', () => {
   beforeEach(() => {
-    setUpClipboard('text from clipboard');
+    setUpClipboard();
   });
 
   afterEach(() => {
     tearDownClipboard();
   });
 
+  it('by default reads from the setup', async () => {
+    const readFromClipboard = await readTextFromClipBoard()
+
+    expect(readFromClipboard).toBe('')
+  });
+
   it('write to clipboard (writeText)', async () => {
-    jest.spyOn(global.navigator.clipboard, 'writeText');
+    await writeTextToClipboard('another text');
 
-    await writeTextToClipboard();
+    const readFromClipboard = await readTextFromClipBoard()
 
-    expect(global.navigator.clipboard.writeText).toHaveBeenCalledWith('text from clipboard');
+    expect(readFromClipboard).toBe('another text')
   });
 
   it('write to clipboard (write)', async () => {
-    jest.spyOn(global.navigator.clipboard, 'write');
-    const myBlob = new Blob(['this is a blob'])
-    const clipboardItem: ClipboardItem = {
-      types: [myBlob.type],
-      getType(type: string): Promise<Blob> {
-        if (type == myBlob.type) {
-          return Promise.resolve(myBlob)
-        }
-        throw Error('blob given does not match type')
-      }
-    };
+    await writeToClipboard('this is a blob');
 
-    await writeToClipboard([
-      clipboardItem
-    ]);
+    const items = await readFromClipBoard();
+    const type1 = await items[0].getType('text/plain');
 
-    expect(global.navigator.clipboard.write).toHaveBeenCalledWith([clipboardItem]);
+    expect((await type1.text())).toBe('this is a blob')
   });
 
   it('should read from clipboard (read)', async () => {
+    await writeTextToClipboard('text from clipboard')
     const readFromClipboard = await readFromClipBoard()
 
-    expect(await readFromClipboard[0].text()).toBe('text from clipboard');
+    const actual = await readFromClipboard[0].getType("text/plain");
+    expect(await actual.text()).toBe('text from clipboard');
   })
 
   it('should read from clipboard (readText)', async () => {
+    await writeTextToClipboard('text from clipboard')
     const readFromClipboard = await readTextFromClipBoard()
 
     expect(readFromClipboard).toBe('text from clipboard');
