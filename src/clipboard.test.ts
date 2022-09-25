@@ -1,27 +1,11 @@
-import { Blob } from 'buffer';
-import {setUpClipboard, tearDownClipboard} from "./clipboard";
-
-const writeTextToClipboard = async (writeToClipboard: string) => {
-  return await navigator.clipboard.writeText(writeToClipboard);
-};
-
-const writeToClipboard = async (text: string) => {
-  const myBlob = new Blob([text], { type: 'text/plain' })
-  const clipboardItem = {
-    'text/plain': myBlob,
-  };
-
-  // @ts-ignore
-  return navigator.clipboard.write([ clipboardItem ]);
-};
-
-const readFromClipBoard = async(): Promise<ClipboardItems> => {
-  return navigator.clipboard.read();
-}
-
-const readTextFromClipBoard = async () => {
-  return await navigator.clipboard.readText()
-}
+import {
+  readFromClipboard,
+  readTextFromClipboard,
+  setUpClipboard,
+  tearDownClipboard,
+  writeTextToClipboard,
+  writeToClipboard
+} from './clipboard';
 
 describe('Clipboard', () => {
   beforeEach(() => {
@@ -33,7 +17,7 @@ describe('Clipboard', () => {
   });
 
   it('by default reads from the setup', async () => {
-    const readFromClipboard = await readTextFromClipBoard()
+    const readFromClipboard = await readTextFromClipboard()
 
     expect(readFromClipboard).toBe('')
   });
@@ -41,7 +25,7 @@ describe('Clipboard', () => {
   it('write to clipboard (writeText)', async () => {
     await writeTextToClipboard('another text');
 
-    const readFromClipboard = await readTextFromClipBoard()
+    const readFromClipboard = await readTextFromClipboard()
 
     expect(readFromClipboard).toBe('another text')
   });
@@ -49,7 +33,7 @@ describe('Clipboard', () => {
   it('write to clipboard (write)', async () => {
     await writeToClipboard('this is a blob');
 
-    const items = await readFromClipBoard();
+    const items = await readFromClipboard();
     const type1 = await items[0].getType('text/plain');
 
     expect((await type1.text())).toBe('this is a blob')
@@ -57,15 +41,15 @@ describe('Clipboard', () => {
 
   it('should read from clipboard (read)', async () => {
     await writeTextToClipboard('text from clipboard')
-    const readFromClipboard = await readFromClipBoard()
+    const fromClipboard = await readFromClipboard()
 
-    const actual = await readFromClipboard[0].getType("text/plain");
+    const actual = await fromClipboard[0].getType("text/plain");
     expect(await actual.text()).toBe('text from clipboard');
   })
 
   it('should read from clipboard (readText)', async () => {
     await writeTextToClipboard('text from clipboard')
-    const readFromClipboard = await readTextFromClipBoard()
+    const readFromClipboard = await readTextFromClipboard()
 
     expect(readFromClipboard).toBe('text from clipboard');
   })

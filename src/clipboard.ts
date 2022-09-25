@@ -1,5 +1,28 @@
 import { Blob } from 'buffer';
 
+export const writeTextToClipboard = async (writeToClipboard: string) => {
+  return await navigator.clipboard.writeText(writeToClipboard);
+};
+
+export const writeToClipboard = async (text: string) => {
+  const myBlob = new Blob([text], { type: 'text/plain' })
+  const clipboardItem = {
+    'text/plain': myBlob,
+  };
+
+  // @ts-ignore
+  return navigator.clipboard.write([ clipboardItem ]);
+};
+
+export const readFromClipboard = async(): Promise<ClipboardItems> => {
+  return navigator.clipboard.read();
+}
+
+export const readTextFromClipboard = async () => {
+  return await navigator.clipboard.readText()
+}
+
+
 export function setUpClipboard() {
   let clipboardItems = [new Blob([], { type: 'text/plain' })]
   Object.assign(global.navigator,

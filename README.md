@@ -5,26 +5,34 @@ jest-clipboard provides a easy way to test code against the [clipboard API](http
 ## Usage
 
 ```typescript
-const writeToClipboard = async () => {
-  await navigator.clipboard.writeText('text from clipboard');
+// your implementation  
+import {readTextFromClipboard} from "./clipboard";
+
+const thisFunctionWritesToClipboard = async () => {
+    await navigator.clipboard.writeText('text from clipboard');
 };
-  
+
+// your implementation to read from the clipboard
+const thisFunctionReadContentFromClipboard = async (): Promise<ClipboardItems> => {
+    return navigator.clipboard.read();
+}
+
 describe('Clipboard', () => {
-  beforeEach(() => {
-    setUpClipboard('text from clipboard');
-  });
+    beforeEach(() => {
+        setUpClipboard();
+    });
 
-  afterEach(() => {
-    tearDownClipboard();
-  });
-  
-  it('should use text from clipboard', async () => {
-    jest.spyOn(global.navigator.clipboard, 'writeText');
-    
-    await writeToClipboard();
+    afterEach(() => {
+        tearDownClipboard();
+    });
 
-    expect(global.navigator.clipboard.writeText).toHaveBeenCalledWith('text from clipboard');
-  });
+    it('should use text from clipboard', async () => {
+        await writeTextToClipboard('I want this to be in the transfer area');
+
+        expect(global.navigator.clipboard.writeText).toHaveBeenCalledWith('text from clipboard');
+        // or
+        expect(await readTextFromClipboard()).toEqual('I want this to be in the transfer area');
+    });
 });
 ```
 
