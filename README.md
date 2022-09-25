@@ -28,6 +28,10 @@ describe('Clipboard', () => {
 });
 ```
 
+## Limitation
+
+Currently the supported methods from the clipboard api are related to the text mode only.
+
 ## Further reading
 
 - [Unblocking clipboard access](https://web.dev/async-clipboard)
