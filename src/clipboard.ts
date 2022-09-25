@@ -1,6 +1,6 @@
 import { Blob } from 'buffer';
 
-export function setUpClipboard(json: string) {
+export function setUpClipboard(text: string) {
   Object.assign(global.navigator,
     {
       clipboard: {
@@ -8,7 +8,7 @@ export function setUpClipboard(json: string) {
           return text;
         },
         async read() {
-          const blob = new Blob([json], { type: 'text/plain' });
+          const blob = new Blob([text], { type: 'text/plain' });
 
           return Promise.resolve([
             {

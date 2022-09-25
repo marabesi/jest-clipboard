@@ -1,6 +1,6 @@
 import {setUpClipboard, tearDownClipboard} from "./clipboard";
 
-const writeToClipboard = async () => {
+const writeTextToClipboard = async () => {
   await navigator.clipboard.writeText('text from clipboard');
 };
 
@@ -16,7 +16,7 @@ describe('Clipboard', () => {
   it('write from clipboard', async () => {
     jest.spyOn(global.navigator.clipboard, 'writeText');
 
-    await writeToClipboard();
+    await writeTextToClipboard();
 
     expect(global.navigator.clipboard.writeText).toHaveBeenCalledWith('text from clipboard');
   });
