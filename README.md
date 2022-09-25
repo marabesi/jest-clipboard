@@ -27,3 +27,8 @@ describe('Clipboard', () => {
   });
 });
 ```
+
+## Further reading
+
+- [Unblocking clipboard access](https://web.dev/async-clipboard)
+- [Clipboard API](https://developer.mozilla.org/en-US/docs/Web/API/Clipboard_API)
