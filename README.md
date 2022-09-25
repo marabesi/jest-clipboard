@@ -1,5 +1,7 @@
 # jest-clipboard
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/66e24f052e7e4654bdf07b8bbafb519d)](https://app.codacy.com/gh/marabesi/jest-clipboard?utm_source=github.com&utm_medium=referral&utm_content=marabesi/jest-clipboard&utm_campaign=Badge_Grade_Settings)
+
 jest-clipboard provides a easy way to test code against the [clipboard API](https://developer.mozilla.org/en-US/docs/Web/API/Clipboard_API￧).
 
 ## Usage
