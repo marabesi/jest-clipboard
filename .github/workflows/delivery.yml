@@ -1,4 +1,11 @@
-on: push
+on:
+  workflow_dispatch:
+  push:
+    branches: main
+
+env:
+  CI: true
+  COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_TOKEN }}
 
 jobs:
   publish:
@@ -9,7 +16,7 @@ jobs:
         with:
           node-version: 16
       - run: npm install
-      - run: npm test
+      - run: npm coveralls
       - run: npm run dist
       - uses: JS-DevTools/npm-publish@v1
         with:

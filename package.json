@@ -7,6 +7,8 @@
   "scripts": {
     "dist": "tsc --outDir dist/ --declarationDir dist/types/",
     "test": "jest src/",
+    "coverage": "npm run test -- --no-cache --collectCoverage --ci --watchAll=false --colors",
+    "coveralls": "npm run coverage && coveralls < coverage/lcov.info",
     "lint": "eslint --fix src/"
   },
   "keywords": [

@@ -38,9 +38,9 @@ describe('Clipboard', () => {
 });
 ```
 
-## Limitation
+## Projects using jest-clipboard
 
-Currently the supported methods from the clipboard api are related to the text mode only.
+- [json-tool](https://github.com/marabesi/json-tool) uses jest-clipboard to setup a scenario for tests [have a look at this file](https://github.com/marabesi/json-tool/blob/5c21086602c2fa8160a4a5d2962455fddb0a39bc/src/__test__/Clipboard.test.tsx)
 
 ## Further reading
 
