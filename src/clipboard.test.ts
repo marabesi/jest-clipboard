@@ -8,6 +8,22 @@ const writeToClipboard = async (clipboardItems: ClipboardItem[]) => {
   await navigator.clipboard.write(clipboardItems);
 };
 
+const readFromClipBoard = async(): Promise<Blob[]> => {
+  const clipboardItems = await navigator.clipboard.read();
+  const readFromClipboard = []
+  for (const clipboardItem of clipboardItems) {
+    for (const type of clipboardItem.types) {
+      const blob = await clipboardItem.getType(type);
+      readFromClipboard.push(blob)
+    }
+  }
+  return readFromClipboard
+}
+
+const readTextFromClipBoard = async () => {
+  return await navigator.clipboard.readText()
+}
+
 describe('Clipboard', () => {
   beforeEach(() => {
     setUpClipboard('text from clipboard');
@@ -44,4 +60,16 @@ describe('Clipboard', () => {
 
     expect(global.navigator.clipboard.write).toHaveBeenCalledWith([clipboardItem]);
   });
+
+  it('should read from clipboard (read)', async () => {
+    const readFromClipboard = await readFromClipBoard()
+
+    expect(await readFromClipboard[0].text()).toBe('text from clipboard');
+  })
+
+  it('should read from clipboard (readText)', async () => {
+    const readFromClipboard = await readTextFromClipBoard()
+
+    expect(readFromClipboard).toBe('text from clipboard');
+  })
 });

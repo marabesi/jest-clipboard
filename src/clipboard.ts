@@ -20,8 +20,11 @@ export function setUpClipboard(text: string) {
               getType: () => blob
             }
           ]);
-        }
-      }
+        },
+        async readText(): Promise<string> {
+          return Promise.resolve(text)
+        },
+      },
     });
 }
 
