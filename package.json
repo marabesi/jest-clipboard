@@ -9,6 +9,12 @@
     "test": "jest src/",
     "lint": "eslint --fix src/"
   },
+  "keywords": [
+    "jest",
+    "clipboard",
+    "copy",
+    "paste"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/marabesi/jest-clipboard.git"
