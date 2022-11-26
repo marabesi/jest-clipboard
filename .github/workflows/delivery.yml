@@ -23,23 +23,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/setup-node@v3
+      - uses: actions/checkout@v3
         with:
           node-version: 16
       - run: npm run dist
-
-  test:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
-      - run: npm run coveralls
 
   publish:
     needs: test
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: 16
