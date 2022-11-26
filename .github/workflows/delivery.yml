@@ -18,15 +18,15 @@ jobs:
           node-version: 16
       - run: npm install
 
-  build:
+  test:
     needs: install
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/setup-node@v3
       - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: 16
-      - run: npm run dist
+      - run: npm run coveralls
 
   publish:
     needs: test
@@ -37,7 +37,6 @@ jobs:
         with:
           node-version: 16
       - run: npm install
-      - run: npm run coveralls
       - run: npm run dist
       - uses: JS-DevTools/npm-publish@v1
         with:
