@@ -1,5 +1,3 @@
-import 'blob-polyfill';
-
 import {
   readFromClipboard,
   readTextFromClipboard,
@@ -64,6 +62,7 @@ describe('Clipboard', () => {
       const blob = new Blob([buffer]);
 
       const clipboardItem: ClipboardItem = {
+        presentationStyle: 'inline',
         types: [imagePng],
         getType(type: string): Promise<Blob> {
           return new Promise((resolve) => {

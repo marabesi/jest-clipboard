@@ -1,3 +1,5 @@
+import 'blob-polyfill';
+
 class Clipboard {
   private clipboardItems: ClipboardItem[] = []
 
@@ -13,6 +15,7 @@ class Clipboard {
 
   async writeText(text: string): Promise<string> {
     const clipboardItem: ClipboardItem = {
+      presentationStyle: 'inline',
       types: ['text/plain'],
       getType(type: string): Promise<Blob> {
         return new Promise((resolve) => {
@@ -62,6 +65,7 @@ export const writeTextToClipboard = async (writeToClipboard: string) => {
 
 export const writeToClipboard = async (text: string) => {
   const a: ClipboardItem = {
+    presentationStyle: 'inline',
     types: ['text/plain'],
     getType(type: string): Promise<Blob> {
       const myBlob = new Blob([text], { type: 'text/plain' })
@@ -71,16 +75,20 @@ export const writeToClipboard = async (text: string) => {
 
   const data = [a];
 
+  await clipboard.write(data);
+
   return navigator.clipboard.write(data);
 };
 
 export const writeItemsToClipboard = async (items: ClipboardItems) => {
+  await clipboard.write(items);
   return navigator.clipboard.write(items);
 };
 
 
 export const readFromClipboard = async(): Promise<ClipboardItems> => {
-  return navigator.clipboard.read();
+  await navigator.clipboard.read();
+  return clipboard.read();
 }
 
 export const readTextFromClipboard = async () => {
