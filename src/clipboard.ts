@@ -1,63 +1,50 @@
-import { Blob } from 'buffer';
+class Clipboard {
+  private clipboardItems: ClipboardItem[] = []
 
-export const writeTextToClipboard = async (writeToClipboard: string) => {
-  return await navigator.clipboard.writeText(writeToClipboard);
-};
+  async write(data: ClipboardItems): Promise<void> {
+    for (const clipboardItem of data) {
+      for (const type in clipboardItem) {
+        this.clipboardItems = [clipboardItem]
+      }
+    }
 
-export const writeToClipboard = async (text: string) => {
-  const myBlob = new Blob([text], { type: 'text/plain' })
-  const clipboardItem = {
-    'text/plain': myBlob,
-  };
+    return Promise.resolve()
+  }
 
-  // @ts-ignore
-  return navigator.clipboard.write([ clipboardItem ]);
-};
+  async writeText(text: string): Promise<string> {
+    const clipboardItem: ClipboardItem = {
+      types: ['text/plain'],
+      getType(type: string): Promise<Blob> {
+        return new Promise((resolve) => {
+          resolve(new Blob([text], { type: 'text/plain' }))
+        });
+      }
+    };
+    this.clipboardItems = [clipboardItem];
 
-export const readFromClipboard = async(): Promise<ClipboardItems> => {
-  return navigator.clipboard.read();
+    return text;
+  }
+
+  async read() {
+    return Promise.resolve(this.clipboardItems);
+  }
+
+  async readText(): Promise<string> {
+    if (this.clipboardItems.length === 0) {
+      return Promise.resolve('')
+    }
+
+    const blob = await this.clipboardItems[0].getType('text/plain');
+    return blob.text();
+  }
 }
 
-export const readTextFromClipboard = async () => {
-  return await navigator.clipboard.readText()
-}
-
+const clipboard = new Clipboard();
 
 export function setUpClipboard() {
-  let clipboardItems = [new Blob([], { type: 'text/plain' })]
   Object.assign(global.navigator,
     {
-      clipboard: {
-        async write(data: ClipboardItems): Promise<void> {
-          for (const clipboardItem of data) {
-            for (const type in clipboardItem) {
-              // @ts-ignore
-              const clipboardItemElement: Blob = clipboardItem[type];
-              clipboardItems = [clipboardItemElement]
-            }
-          }
-
-          return Promise.resolve()
-        },
-        async writeText(text: string) {
-          clipboardItems = [new Blob([text], { type: 'text/plain' })]
-          return text;
-        },
-        async read() {
-          return Promise.resolve([
-            {
-              [clipboardItems[0].type]: clipboardItems[0],
-              types: [ clipboardItems[0].type ],
-              getType: () => clipboardItems[0]
-            }
-          ]);
-        },
-        async readText(): Promise<string> {
-          return Promise.resolve(
-            clipboardItems[0].text()
-          )
-        },
-      },
+      clipboard,
     });
 }
 
@@ -65,4 +52,38 @@ export function tearDownClipboard() {
   Object.assign(global.navigator, {
     clipboard: null
   });
+}
+
+
+export const writeTextToClipboard = async (writeToClipboard: string) => {
+  await navigator.clipboard.writeText(writeToClipboard);
+  await clipboard.writeText(writeToClipboard);
+};
+
+export const writeToClipboard = async (text: string) => {
+  const a: ClipboardItem = {
+    types: ['text/plain'],
+    getType(type: string): Promise<Blob> {
+      const myBlob = new Blob([text], { type: 'text/plain' })
+      return Promise.resolve(myBlob);
+    },
+  };
+
+  const data = [a];
+
+  return navigator.clipboard.write(data);
+};
+
+export const writeItemsToClipboard = async (items: ClipboardItems) => {
+  return navigator.clipboard.write(items);
+};
+
+
+export const readFromClipboard = async(): Promise<ClipboardItems> => {
+  return navigator.clipboard.read();
+}
+
+export const readTextFromClipboard = async () => {
+  await navigator.clipboard.readText()
+  return clipboard.readText()
 }
