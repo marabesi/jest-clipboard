@@ -6,6 +6,7 @@ import {
   writeTextToClipboard,
   writeToClipboard
 } from './clipboard';
+import { ClipboardItemJest } from './types';
 
 describe('Clipboard', () => {
   beforeEach(() => {
@@ -61,7 +62,7 @@ describe('Clipboard', () => {
       const buffer = Buffer.from(base64Image, 'base64');
       const blob = new Blob([buffer]);
 
-      const clipboardItem: ClipboardItem = {
+      const clipboardItem: ClipboardItemJest = {
         presentationStyle: 'inline',
         types: [imagePng],
         getType(type: string): Promise<Blob> {

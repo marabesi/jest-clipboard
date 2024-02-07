@@ -1,5 +1,7 @@
 import 'blob-polyfill';
 
+import { ClipboardItemJest } from './types';
+
 class Clipboard {
   private clipboardItems: ClipboardItem[] = []
 
@@ -14,7 +16,7 @@ class Clipboard {
   }
 
   async writeText(text: string): Promise<string> {
-    const clipboardItem: ClipboardItem = {
+    const clipboardItem: ClipboardItemJest = {
       presentationStyle: 'inline',
       types: ['text/plain'],
       getType(type: string): Promise<Blob> {
@@ -64,7 +66,7 @@ export const writeTextToClipboard = async (writeToClipboard: string) => {
 };
 
 export const writeToClipboard = async (text: string) => {
-  const a: ClipboardItem = {
+  const a: ClipboardItemJest = {
     presentationStyle: 'inline',
     types: ['text/plain'],
     getType(type: string): Promise<Blob> {
