@@ -31,7 +31,7 @@
   },
   "homepage": "https://github.com/marabesi/jest-clipboard#readme",
   "dependencies": {
-    "blob-polyfill": "^7.0.20220408"
+    "blob-polyfill": "^8.0.20240630"
   },
   "devDependencies": {
     "@types/jest": "^29.0.3",
