@@ -9,7 +9,7 @@ jest-clipboard provides a easy way to test code against the [clipboard API](http
 
 ```typescript
 // your implementation  
-import {readTextFromClipboard} from "./clipboard";
+import {readTextFromClipboard} from "jest-clipboard";
 
 const thisFunctionWritesToClipboard = async () => {
     await navigator.clipboard.writeText('text from clipboard');
