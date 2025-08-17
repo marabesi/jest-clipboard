@@ -7,6 +7,7 @@ class Clipboard {
 
   async write(data: ClipboardItems): Promise<void> {
     for (const clipboardItem of data) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       for (const type in clipboardItem) {
         this.clipboardItems = [clipboardItem]
       }
@@ -19,7 +20,7 @@ class Clipboard {
     const clipboardItem: ClipboardItemJest = {
       presentationStyle: 'inline',
       types: ['text/plain'],
-      getType(type: string): Promise<Blob> {
+      getType(): Promise<Blob> {
         return new Promise((resolve) => {
           resolve(new Blob([text], { type: 'text/plain' }))
         });
@@ -69,7 +70,7 @@ export const writeToClipboard = async (text: string) => {
   const a: ClipboardItemJest = {
     presentationStyle: 'inline',
     types: ['text/plain'],
-    getType(type: string): Promise<Blob> {
+    getType(): Promise<Blob> {
       const myBlob = new Blob([text], { type: 'text/plain' })
       return Promise.resolve(myBlob);
     },

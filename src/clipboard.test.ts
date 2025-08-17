@@ -65,7 +65,7 @@ describe('Clipboard', () => {
       const clipboardItem: ClipboardItemJest = {
         presentationStyle: 'inline',
         types: [imagePng],
-        getType(type: string): Promise<Blob> {
+        getType(): Promise<Blob> {
           return new Promise((resolve) => {
             resolve(blob)
           });
