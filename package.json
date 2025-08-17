@@ -1,6 +1,6 @@
 {
   "name": "jest-clipboard",
-  "version": "0.0.11-beta.0",
+  "version": "0.0.11-beta.1",
   "description": "jest-clipboard provides a easy way to test code against the clipboard API.",
   "main": "dist/clipboard.js",
   "types": "dist/types/clipboard.d.ts",
