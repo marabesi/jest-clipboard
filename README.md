@@ -50,7 +50,7 @@ afterEach(() => tearDownClipboard());
 ## Quick start
 
 - If you use a global setup file (recommended), you can write tests straight away:
-- 
+
 ```typescript
 import { writeTextToClipboard, readTextFromClipboard } from 'jest-clipboard';
 
@@ -60,7 +60,7 @@ it('reads and writes clipboard text', async () => {
 });
 ```
 - If you prefer per-test setup, call the helpers inside your test file:
-- 
+
 ```typescript
 import { setUpClipboard, tearDownClipboard, writeTextToClipboard, readTextFromClipboard } from 'jest-clipboard';
 
