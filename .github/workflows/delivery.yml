@@ -1,7 +1,7 @@
 on:
   workflow_dispatch:
   push:
-    branches: main
+    branches: [main]
 
 env:
   CI: true
@@ -12,20 +12,35 @@ jobs:
   install:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+
+      - name: Set Environment Variables
+        uses: tw3lveparsecs/github-actions-setvars@v0.1
         with:
-          node-version: 20
-      - run: npm install
+          envFilePath: ./envvars.for.actions
+
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: install
+        run: npm install
 
   test:
     needs: install
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - name: Set Environment Variables
+        uses: tw3lveparsecs/github-actions-setvars@v0.1
         with:
-          node-version: 20
+          envFilePath: ./envvars.for.actions
+
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
       - run: npm install
       - run: npm run coveralls
 
@@ -33,10 +48,16 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - name: Set Environment Variables
+        uses: tw3lveparsecs/github-actions-setvars@v0.1
         with:
-          node-version: 20
+          envFilePath: ./envvars.for.actions
+
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
       - run: npm install
       - run: npm run dist
       - uses: JS-DevTools/npm-publish@v1
