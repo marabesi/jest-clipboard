@@ -34,7 +34,7 @@
     "blob-polyfill": "^9.0.20240710"
   },
   "devDependencies": {
-    "@eslint/js": "^9.33.0",
+    "@eslint/js": "^10.0.1",
     "@types/jest": "^30.0.0",
     "@typescript-eslint/eslint-plugin": "^8.2.0",
     "coveralls": "^3.1.1",
