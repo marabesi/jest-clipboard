@@ -52,10 +52,11 @@ jobs:
   publish:
     needs: test
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && contains(github.event.head_commit.message, 'tagged version')
     steps:
       - uses: actions/checkout@v7
       - name: Set Environment Variables
-        uses: tw3lveparsecs/github-actions-setvars@v0.1
+        uses: tw3lveparsecs/github-actions-setvars@v0.2
         with:
           envFilePath: ./envvars.for.actions
 
